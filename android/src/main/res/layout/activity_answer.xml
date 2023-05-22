@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:fitsSystemWindows="true">
+        android:background="@drawable/call_background"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:gravity="center"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        >
         <ImageView
             android:id="@+id/ivCallImage"
             android:layout_width="60dp"
@@ -22,22 +28,20 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="12dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitEnd"
-            android:tint="@color/white"
+            app:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/tvCallInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout25"
             app:srcCompat="@drawable/splash_icon"/>
 
-    <LinearLayout
+        <LinearLayout
             android:id="@+id/linearLayout25"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-           >
+            android:orientation="vertical">
 
-        <TextView
+            <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +59,7 @@
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
-        <TextView
+            <TextView
                 android:id="@+id/tvCallStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +75,7 @@
                 android:textColor="@color/white"
                 android:textSize="21sp" />
 
-        <Chronometer
+            <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,74 +95,77 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivCallImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/buzz_logo"
+        app:tint="@color/white"
+
+        />
+
     <LinearLayout
-            android:id="@+id/constraintLayout13"
+            android:id="@+id/layoutCallOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="45dp"
-            android:paddingBottom="45dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-                android:id="@+id/layoutCallOptions"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:visibility="visible"
-                tools:visibility="visible">
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            tools:visibility="visible"
+            android:paddingBottom="80dp"
+        >
 
             <LinearLayout
-                    android:id="@+id/layoutReject"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                android:id="@+id/layoutReject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                        android:id="@+id/btnReject"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/bg_full_rounded"
-                        android:backgroundTint="@android:color/holo_red_light"
-                        android:elevation="3dp"
-                        android:scaleType="centerInside"
-                        android:tint="@color/white"
-                        android:tintMode="src_in"
-                        app:srcCompat="@drawable/ic_phone_off" />
+                    android:id="@+id/btnReject"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/bg_full_rounded"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:elevation="3dp"
+                    android:scaleType="centerInside"
+                    android:tint="@color/white"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_phone_off" />
 
             </LinearLayout>
 
             <LinearLayout
-                    android:id="@+id/layoutAnswer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+                android:id="@+id/layoutAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <ImageView
-                        android:id="@+id/btnAnswer"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/bg_full_rounded"
-                        android:backgroundTint="@android:color/holo_green_light"
-                        android:elevation="3dp"
-                        android:scaleType="centerInside"
-                        android:tint="@color/white"
-                        android:tintMode="src_in"
-                        app:srcCompat="@drawable/ic_phone_call" />
+                    android:id="@+id/btnAnswer"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/bg_full_rounded"
+                    android:backgroundTint="@android:color/holo_green_light"
+                    android:elevation="3dp"
+                    android:scaleType="centerInside"
+                    android:tint="@color/white"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_phone_call" />
 
             </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
