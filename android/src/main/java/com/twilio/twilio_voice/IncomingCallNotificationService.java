@@ -77,7 +77,7 @@ public class IncomingCallNotificationService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         /*
          * Pass the notification id and call sid to use as an identifier to cancel the
-         * notification later
+         * notification later11
          */
         Bundle extras = new Bundle();
         extras.putString(Constants.CALL_SID_KEY, callInvite.getCallSid());
@@ -150,8 +150,22 @@ public class IncomingCallNotificationService extends Service {
         PendingIntent piAcceptIntent = PendingIntent.getService(getApplicationContext(), 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long[] mVibratePattern = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
-        Notification.Builder builder =
-                new Notification.Builder(getApplicationContext(), channelId)
+//        Notification.Builder builder =
+//                new Notification.Builder(getApplicationContext(), channelId)
+//                        .setSmallIcon(R.drawable.ic_call_end_white_24dp)
+//                        .setContentTitle(title)
+//                        .setContentText(text)
+//                        .setCategory(Notification.CATEGORY_CALL)
+//                        .setFullScreenIntent(pendingIntent, true)
+//                        .setExtras(extras)
+//                        .setVibrate(mVibratePattern)
+//                        .setAutoCancel(true)
+//                        .setVisibility(Notification.VISIBILITY_PUBLIC)
+//                        .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
+//                        .addAction(android.R.drawable.ic_menu_call, getString(R.string.answer), piAcceptIntent)
+//                        .setFullScreenIntent(pendingIntent, true);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(getApplicationContext(), channelId)
                         .setSmallIcon(R.drawable.ic_call_end_white_24dp)
                         .setContentTitle(title)
                         .setContentText(text)
@@ -160,7 +174,7 @@ public class IncomingCallNotificationService extends Service {
                         .setExtras(extras)
                         .setVibrate(mVibratePattern)
                         .setAutoCancel(true)
-                        .setVisibility(Notification.VISIBILITY_PUBLIC)
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                         .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
                         .addAction(android.R.drawable.ic_menu_call, getString(R.string.answer), piAcceptIntent)
                         .setFullScreenIntent(pendingIntent, true);

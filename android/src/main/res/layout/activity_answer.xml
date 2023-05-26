@@ -96,6 +96,7 @@
         </LinearLayout>
     </LinearLayout>
 
+
     <ImageView
         android:id="@+id/ivCallImage"
         android:layout_width="120dp"
