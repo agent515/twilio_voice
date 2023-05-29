@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinator_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/call_background"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:gravity="center"
-    >
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/call_background"
+    android:fitsSystemWindows="true"
+    android:gravity="center">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        >
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/ivCallImage"
             android:layout_width="60dp"
@@ -28,12 +26,12 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="12dp"
             android:adjustViewBounds="true"
-            app:tint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/tvCallInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout25"
-            app:srcCompat="@drawable/splash_icon"/>
+            app:srcCompat="@drawable/splash_icon"
+            app:tint="@color/white" />
 
         <LinearLayout
             android:id="@+id/linearLayout25"
@@ -101,70 +99,52 @@
         android:id="@+id/ivCallImage"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="280dp"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/buzz_logo"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/layoutCallOptions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:srcCompat="@drawable/buzz_logo" />
 
-    <LinearLayout
-            android:id="@+id/layoutCallOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            tools:visibility="visible"
-            android:paddingBottom="80dp"
-        >
+    <ImageView
+        android:id="@+id/btnReject"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginRight="84dp"
+        android:background="@drawable/bg_full_rounded"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:elevation="3dp"
+        android:scaleType="centerInside"
+        android:tint="@color/white"
+        android:tintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAnswer"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/ic_phone_off" />
 
-            <LinearLayout
-                android:id="@+id/layoutReject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/btnReject"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/bg_full_rounded"
-                    android:backgroundTint="@android:color/holo_red_light"
-                    android:elevation="3dp"
-                    android:scaleType="centerInside"
-                    android:tint="@color/white"
-                    android:tintMode="src_in"
-                    app:srcCompat="@drawable/ic_phone_off" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/btnAnswer"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:background="@drawable/bg_full_rounded"
-                    android:backgroundTint="@android:color/holo_green_light"
-                    android:elevation="3dp"
-                    android:scaleType="centerInside"
-                    android:tint="@color/white"
-                    android:tintMode="src_in"
-                    app:srcCompat="@drawable/ic_phone_call" />
-
-            </LinearLayout>
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/btnAnswer"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_full_rounded"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:elevation="3dp"
+        android:scaleType="centerInside"
+        android:tint="@color/white"
+        android:tintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnReject"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/ic_phone_call" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

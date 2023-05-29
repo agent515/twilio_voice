@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -100,10 +101,11 @@ public class IncomingCallNotificationService extends Service {
         } else {
             Log.i(TAG, "building notification for older phones");
 
-            return new NotificationCompat.Builder(this)
+        RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.activity_incoming_call_notification_small);
+
+
+        return new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_call_end_white_24dp)
-                    .setContentTitle(getApplicationName(context))
-                    .setContentText(getString(R.string.new_call, caller))
                     .setAutoCancel(true)
                     .setOngoing(true)
                     .setExtras(extras)
@@ -113,7 +115,7 @@ public class IncomingCallNotificationService extends Service {
                     .setLights(Color.RED, 3000, 3000)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setColor(Color.rgb(20, 10, 200)).build();
+                    .setCustomContentView(notificationLayout).build();
         }
     }
 
@@ -166,22 +168,24 @@ public class IncomingCallNotificationService extends Service {
 //                        .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
 //                        .addAction(android.R.drawable.ic_menu_call, getString(R.string.answer), piAcceptIntent)
 //                        .setFullScreenIntent(pendingIntent, true);
+        RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.activity_incoming_call_notification_small);
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(getApplicationContext(), channelId)
                         .setSmallIcon(R.drawable.ic_call_end_white_24dp)
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        .setCategory(Notification.CATEGORY_CALL)
-                        .setFullScreenIntent(pendingIntent, true)
-                        .setExtras(extras)
-                        .setVibrate(mVibratePattern)
                         .setAutoCancel(true)
+                        .setOngoing(true)
+                        .setExtras(extras)
+                        .setContentIntent(pendingIntent)
+                        .setFullScreenIntent(pendingIntent, true)
+                        .setVibrate(mVibratePattern)
+                        .setLights(Color.RED, 3000, 3000)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .addAction(android.R.drawable.ic_menu_delete, getString(R.string.decline), piRejectIntent)
-                        .addAction(android.R.drawable.ic_menu_call, getString(R.string.answer), piAcceptIntent)
-                        .setFullScreenIntent(pendingIntent, true);
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .setCustomContentView(notificationLayout);
 
-        return builder.build();
+        return  builder.build();
+
     }
 
     @TargetApi(Build.VERSION_CODES.O)
