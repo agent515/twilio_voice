@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -30,6 +28,8 @@ import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
 
+import java.util.Map;
+
 
 public class AnswerJavaActivity extends AppCompatActivity {
 
@@ -48,6 +48,8 @@ public class AnswerJavaActivity extends AppCompatActivity {
     private PowerManager.WakeLock wakeLock;
     private TextView tvUserName;
     private TextView tvCallStatus;
+
+    private TextView tvRiskScore;
     private ImageView btnAnswer;
     private ImageView btnReject;
     Call.Listener callListener = callListener();
@@ -59,6 +61,7 @@ public class AnswerJavaActivity extends AppCompatActivity {
 
         tvUserName = (TextView) findViewById(R.id.tvUserName);
         tvCallStatus = (TextView) findViewById(R.id.tvCallStatus);
+        tvRiskScore = (TextView) findViewById(R.id.tvRiskScore);
         btnAnswer = (ImageView) findViewById(R.id.btnAnswer);
         btnReject = (ImageView) findViewById(R.id.btnReject);
 
@@ -154,6 +157,9 @@ public class AnswerJavaActivity extends AppCompatActivity {
 //            SharedPreferences preferences = getApplicationContext().getSharedPreferences(TwilioPreferences, Context.MODE_PRIVATE);
 //            String caller = preferences.getString(fromId, preferences.getString("defaultCaller", getString(R.string.unknown_caller)));
             tvUserName.setText(fromId);
+            Map<String, String> customParams = activeCallInvite.getCustomParameters();
+            String riskScore = customParams.get("riskScore");
+            tvRiskScore.setText("Risk Score: " + riskScore);
 
             btnAnswer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -374,6 +380,7 @@ public class AnswerJavaActivity extends AppCompatActivity {
             } else {
                 acceptCall();
             }
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         } else {
             throw new IllegalStateException("Unexpected value: " + requestCode);
         }

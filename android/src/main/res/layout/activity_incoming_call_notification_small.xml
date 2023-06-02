@@ -49,17 +49,17 @@
             android:gravity="center"
             >
             <ImageView
-                android:id="@+id/icNotificationBtnAnswer"
+                android:id="@+id/icNotificationBtnReject"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-
                 android:background="@drawable/bg_full_rounded"
-                android:backgroundTint="@android:color/holo_green_light"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:elevation="3dp"
                 android:scaleType="centerInside"
                 android:tint="@color/white"
                 android:tintMode="src_in"
-                app:srcCompat="@drawable/ic_phone_call" />
+                app:srcCompat="@drawable/ic_phone_off" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -68,18 +68,18 @@
             android:layout_weight="1"
             android:gravity="center"
             >
+            <ImageView
+                android:id="@+id/icNotificationBtnAnswer"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_full_rounded"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:elevation="3dp"
+                android:scaleType="centerInside"
+                android:tint="@color/white"
+                android:tintMode="src_in"
+                app:srcCompat="@drawable/ic_phone_call" />
 
-        <ImageView
-            android:id="@+id/icNotificationBtnReject"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:background="@drawable/bg_full_rounded"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:elevation="3dp"
-            android:scaleType="centerInside"
-            android:tint="@color/white"
-            android:tintMode="src_in"
-            app:srcCompat="@drawable/ic_phone_off" />
         </LinearLayout>
 
 

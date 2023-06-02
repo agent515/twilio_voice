@@ -12,5 +12,5 @@
     <color name="grayRadiobuttonBg">#eeeeef</color>
     <color name="grayHeaderItem">#F1F2F3</color>
     <color name="colorGrayBlur">#8c939393</color>
-
+    <color name="chineseYellow">#FFFFB000</color>
 </resources>

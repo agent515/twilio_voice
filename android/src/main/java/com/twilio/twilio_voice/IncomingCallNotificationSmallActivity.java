@@ -41,7 +41,7 @@ public class IncomingCallNotificationSmallActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "onBtnAnswer");
-                        Intent acceptIntent = new Intent(getApplicationContext(), AnswerJavaActivity.class);
+                        Intent acceptIntent = new Intent(IncomingCallNotificationSmallActivity.this, IncomingCallNotificationService.class);
                         acceptIntent.setAction(Constants.ACTION_ACCEPT);
                         acceptIntent.putExtra(Constants.ACCEPT_CALL_ORIGIN, 0);
                         acceptIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
@@ -56,13 +56,19 @@ public class IncomingCallNotificationSmallActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "onBtnReject");
-                        Intent rejectIntent = new Intent(getApplicationContext(), AnswerJavaActivity.class);
-                        rejectIntent.setAction(Constants.ACTION_REJECT);
-                        rejectIntent.putExtra(Constants.INCOMING_CALL_INVITE, callInvite);
-                        rejectIntent.putExtra(Constants.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+                        Intent rejectIntent = new Intent(IncomingCallNotificationSmallActivity.this, BackgroundCallJavaActivity.class);
+                        rejectIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                        rejectIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        rejectIntent.setAction(Constants.ACTION_CANCEL_CALL);
+
                         startActivity(rejectIntent);
+                        finish();
                     }
                 }
         );
+
+        Log.d(TAG, "In4");
+
     }
 }
