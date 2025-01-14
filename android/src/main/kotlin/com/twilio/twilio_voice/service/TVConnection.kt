@@ -6,10 +6,13 @@ package com.twilio.twilio_voice.service
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.telecom.CallAudioState
 import android.telecom.Connection
 import android.telecom.DisconnectCause
+import android.telecom.PhoneAccount
+import android.telecom.TelecomManager
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.twilio.twilio_voice.call.TVParameters
@@ -106,6 +109,19 @@ open class TVCallConnection(
         audioModeIsVoip = true
         connectionCapabilities = CAPABILITY_MUTE or CAPABILITY_HOLD or CAPABILITY_SUPPORT_HOLD
     }
+
+    private var displayName: String? = null
+    private var phoneNumber: String? = null
+
+    fun setCallDetails(phoneNumber: String, displayName: String) {
+        this.phoneNumber = phoneNumber
+        this.displayName = displayName
+
+        // Set initial address and display name
+        setAddress(Uri.fromParts(PhoneAccount.SCHEME_TEL, phoneNumber, null), TelecomManager.PRESENTATION_ALLOWED)
+        setCallerDisplayName(displayName, TelecomManager.PRESENTATION_ALLOWED)
+    }
+
 
     fun setOnCallDisconnected(handler: CompletionHandler<DisconnectCause>) {
         onDisconnected = handler
@@ -357,6 +373,13 @@ open class TVCallConnection(
 
     override fun onStateChanged(state: Int) {
         super.onStateChanged(state)
+        // Reapply the display name to ensure it's shown correctly
+        displayName?.let {
+            // Set initial address and display name
+            setAddress(Uri.fromParts(PhoneAccount.SCHEME_TEL, phoneNumber, null), TelecomManager.PRESENTATION_ALLOWED)
+            setCallerDisplayName(displayName, TelecomManager.PRESENTATION_ALLOWED)
+        }
+
         Log.d(TAG, "onStateChanged: $state")
 //        when (state) {
 //            STATE_ACTIVE -> {

@@ -514,6 +514,12 @@ class TVConnectionService : ConnectionService() {
         // Setup connection event listeners and UI parameters
         attachCallEventListeners(connection, ci.callSid)
         applyParameters(connection, callParams)
+
+        var displayName: String? = ci.customParameters?.get("buzz_display_name")
+        displayName?.let {
+            connection.setCallDetails(callParams.from, displayName)
+        }
+
         connection.setRinging()
 
         startForegroundService()
@@ -570,6 +576,11 @@ class TVConnectionService : ConnectionService() {
         // create outgoing connection
         val connection = TVCallConnection(applicationContext)
 
+        var displayName: String? = params?.get("callee_display_name")
+        displayName?.let {
+            connection.setCallDetails(to, displayName)
+        }
+
         // create Voice SDK call
         connection.twilioCall = Voice.connect(applicationContext, connectOptions, connection)
 
@@ -592,6 +603,12 @@ class TVConnectionService : ConnectionService() {
                     attachCallEventListeners(connection, callSid)
                     callParams.callSid = callSid
                 }
+                displayName?.let {
+                    // Set initial address and display name
+                    connection.setAddress(Uri.fromParts(PhoneAccount.SCHEME_TEL, to, null), TelecomManager.PRESENTATION_ALLOWED)
+                    connection.setCallerDisplayName(displayName, TelecomManager.PRESENTATION_ALLOWED)
+                }
+
             }
         }
         connection.setOnCallStateListener(onCallStateListener)
