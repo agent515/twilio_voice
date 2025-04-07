@@ -1,18 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+// TODO(cybex-dev) implement package:web
+// ignore: deprecated_member_use
 import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 // Added as temporary measure till sky_engine includes js_util (allowInterop())
+// TODO(cybex-dev) implement js_interop for allowInterop function
+// ignore: deprecated_member_use
 import 'package:js/js.dart' as js;
+// TODO(cybex-dev) implement js_interop for js_util package
+// ignore: deprecated_member_use
 import 'package:js/js_util.dart' as js_util;
 import 'package:twilio_voice/_internal/js/call/call_status.dart';
 
 // This is required for JS interop, do not remove even though linter complains
-// ignore: unused_import
+// TODO(cybex-dev) implement js_interop for js_util package
+// ignore: unused_import,deprecated_member_use
 import 'package:js/js_util.dart';
 import 'package:twilio_voice/_internal/platform_interface/twilio_voice_platform_interface.dart';
 
@@ -230,6 +237,8 @@ class TwilioVoiceWeb extends MethodChannelTwilioVoice {
 
   html.Permissions? get _webPermissionsDelegate => _webNavigatorDelegate.permissions;
 
+  html.MediaDevices? get _webMediaDevicesDelegate => _webNavigatorDelegate.mediaDevices;
+
   late final Call _call = Call();
 
   @override
@@ -320,13 +329,25 @@ class TwilioVoiceWeb extends MethodChannelTwilioVoice {
   Future<bool?> requestMicAccess() async {
     Logger.logLocalEvent("requesting mic permission");
     try {
-      /// TODO(cybex-dev) - Check browser type, if it is Firefox (or Safari), use the permissions API else use the getUserMedia API
-      // final perm = await _webPermissionsDelegate?.request({"name": "microphone"});
-      // return (perm == "granted");
-
-      /// This dirty hack to get media stream. Request (to show permissions popup on Chrome and other browsers, then stop the stream to release the permission)
+      final isSafariOrFirefox = RegExp(r'^((?!chrome|android).)*safari|firefox', caseSensitive: false)
+          .hasMatch(_webNavigatorDelegate.userAgent);
+      
+      if (isSafariOrFirefox && _webPermissionsDelegate != null) {
+        try {
+          final result = await _webPermissionsDelegate!.request({"name": "microphone"});
+          if (result.state == "granted") return true;
+        } catch (e) {
+          printDebug("Failed to request microphone permission");
+          printDebug(e);
+        }
+      }
+      
+      // Default approach for all browsers (and fallback for Safari & Firefox)
+      /// This dirty hack to get media stream. Request (to show permissions popup on Chrome 
+      /// and other browsers, then stop the stream to release the permission)
       /// TODO(cybex-dev) - check supported media streams
-      html.MediaStream mediaStream = await _webNavigatorDelegate.getUserMedia(audio: true);
+      html.MediaStream mediaStream = await _webMediaDevicesDelegate?.getUserMedia({"audio": true}) ?? 
+          await _webNavigatorDelegate.getUserMedia(audio: true);
       mediaStream.getTracks().forEach((track) => track.stop());
       return hasMicAccess();
     } catch (e) {
@@ -777,10 +798,11 @@ class Call extends MethodChannelTwilioCall {
   Future<bool?> place({required String from, required String to, Map<String, dynamic>? extraOptions}) async {
     assert(device != null,
         "Twilio device is null, make sure you have initialized the device first by calling [ setTokens({required String accessToken, String? deviceToken}) ] ");
-    assert(from.isNotEmpty, "From cannot be empty");
-    assert(to.isNotEmpty, "To cannot be empty");
-    assert(extraOptions?.keys.contains("From") ?? true, "From cannot be passed in extraOptions");
-    assert(extraOptions?.keys.contains("To") ?? true, "To cannot be passed in extraOptions");
+    assert(from.isNotEmpty, "'from' cannot be empty");
+    assert(to.isNotEmpty, "'to' cannot be empty");
+    final options = (extraOptions ?? {});
+    assert(!options.keys.contains("From"), "'from' cannot be passed in 'extraOptions'");
+    assert(!options.keys.contains("To"), "'to' cannot be passed in 'extraOptions'");
 
     Logger.logLocalEvent("Making new call");
     // handle parameters
@@ -905,7 +927,7 @@ class Call extends MethodChannelTwilioCall {
   /// On accept/answering (inbound) call
   /// Undocumented event: Ringing found in twilio-voice.js implementation: https://github.com/twilio/twilio-voice.js/blob/94ea6b6d8d1128ac5091f3a3bec4eae745e4d12f/lib/twilio/call.ts#L1355
   /// Documentation: https://www.twilio.com/docs/voice/sdks/javascript/twiliocall#accept-event
-  // ignore: unused_element
+  // ignore: unused_element_parameter
   void _onCallRinging({bool hasEarlyMedia = false}) {
     if (_jsCall != null) {
       final params = getCallParams(_jsCall!);
